@@ -24,28 +24,40 @@
         </el-row>
       </el-header>
       <el-container class="container">
-        <el-aside width="200px">Aside</el-aside>
+        <el-aside width="200px">
+          <user @showLoginBtn="showLoginBtn"/>
+        </el-aside>
         <el-main>Main</el-main>
       </el-container>
       <el-footer height="60px">Footer</el-footer>
     </el-container>
 
+
+<!--   登录页面-->
+    <login-card v-show="showLoginpage"/>
   </div>
+
 
 </template>
 
 <script>
-import TopMenu from "@/components/TopMenu/TopMenu";
+import TopMenu from "@components/TopMenu/TopMenu";
 import {getmusic} from "@/utils/api";
+import User from "@views/user/User";
+import LoginCard from "@components/loginCard/loginCard";
 
 export default {
   name: "Home",
   components: {
+    LoginCard,
+    User,
     TopMenu
   },
   data() {
     return {
       serchinput: '',
+      showLoginpage:true,
+
     }
   },
   created() {
@@ -57,12 +69,19 @@ export default {
     async getmusic(){
       const res = await getmusic()
       console.log(res);
+    },
+    showLoginBtn(){
+
+      console.log('点击了');
+      this.showLoginpage =true
     }
 
   },
 }
 </script>
-<style scoped>
+<style scoped >
+
+
 .top-menu {
   display: flex;
 }
@@ -187,4 +206,6 @@ export default {
 .el-button:hover {
   background: #373737;
 }
+
+
 </style>
