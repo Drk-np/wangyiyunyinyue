@@ -1,3 +1,5 @@
+/*@import '../iconfont/iconfont.css';*/
+
 html,
 body,
 #app {
@@ -9,10 +11,12 @@ body,
     min-height: 670px;
     user-select: none;
 }
-p{
+
+p {
     margin: 0;
     padding: 0;
 }
+
 ul, ol {
     list-style: none;
 }
@@ -50,4 +54,51 @@ p {
     content: '';
     display: block;
     clear: both;
+}
+
+.el-cascader-menu {
+    min-width: 250px;
+}
+
+.el-popper {
+    position: absolute;
+    left: 460px !important;
+}
+
+
+/*定义icon*/
+.icon-qq {
+    font-family: "iconfont" !important;
+    content: '&#xe71b';
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-weibo {
+    font-family: "iconfont" !important;
+    content: '&#xe690';
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-weixin {
+    font-family: "iconfont" !important;
+    content: '&#xe776';
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-wangyi {
+    font-family: "iconfont" !important;
+    content: '&#xe60c';
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

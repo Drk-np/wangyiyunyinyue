@@ -5,8 +5,10 @@
 </template>
 
 <style lang="less">
-#app{
+#app {
   width: 100%;
   height: 100%;
 }
+
+@import 'assets/iconfont/iconfont.css';
 </style>
