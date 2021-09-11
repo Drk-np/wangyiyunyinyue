@@ -14,7 +14,7 @@
               placeholder="搜索"
               v-model="serchinput"
               clearable
-              >
+          >
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
           <el-button boolean size="mini" icon="el-icon-setting" circle></el-button>
@@ -26,6 +26,7 @@
       <el-container class="container">
         <el-aside width="200px">
           <user @showLoginBtn="showLoginBtn"/>
+
         </el-aside>
         <el-main>Main</el-main>
       </el-container>
@@ -33,7 +34,7 @@
     </el-container>
 
 
-<!--   登录页面-->
+    <!--   登录页面-->
     <login-card v-show="showLoginpage"/>
   </div>
 
@@ -56,30 +57,30 @@ export default {
   data() {
     return {
       serchinput: '',
-      showLoginpage:true,
+      showLoginpage: true,
 
     }
   },
   created() {
-  this.getmusic()
+    this.getmusic()
 
   }
   ,
-  methods:{
-    async getmusic(){
+  methods: {
+    async getmusic() {
       const res = await getmusic()
       console.log(res);
     },
-    showLoginBtn(){
+    showLoginBtn() {
 
       console.log('点击了');
-      this.showLoginpage =true
+      this.showLoginpage = true
     }
 
   },
 }
 </script>
-<style scoped >
+<style scoped>
 
 
 .top-menu {

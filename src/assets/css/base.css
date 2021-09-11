@@ -60,18 +60,15 @@ p {
     min-width: 250px;
 }
 
-.el-popper {
-    position: absolute;
-    left: 460px !important;
-}
-
 
 /*定义icon*/
 .icon-qq {
     font-family: "iconfont" !important;
     content: '&#xe71b';
-    font-size: 16px;
+    font-size: 22px;
     font-style: normal;
+    height: 18px;
+    width: 18px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -79,7 +76,7 @@ p {
 .icon-weibo {
     font-family: "iconfont" !important;
     content: '&#xe690';
-    font-size: 16px;
+    font-size: 24px;
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -88,7 +85,7 @@ p {
 .icon-weixin {
     font-family: "iconfont" !important;
     content: '&#xe776';
-    font-size: 16px;
+    font-size: 24px;
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -97,7 +94,7 @@ p {
 .icon-wangyi {
     font-family: "iconfont" !important;
     content: '&#xe60c';
-    font-size: 16px;
+    font-size: 24px;
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
