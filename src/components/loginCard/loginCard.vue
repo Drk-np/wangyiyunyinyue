@@ -7,8 +7,7 @@
       <el-image
           style="width: 170px; height: 170px"
           :src="qrurl"
-          fit="fill"
-          @mouseenter="mouseenter">
+          fit="fill">
         <div slot="error" class="image-slot">
           <i class="el-icon-picture-outline"></i>
         </div>
@@ -115,17 +114,13 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     this.qrlogin()
+    this.getcountries()
 
-    setTimeout(() => {
-      console.log("11111")
-    }, 5000)
   },
   methods: {
-    mouseenter() {
 
-    },
     // 获取国家列表
     async getcountries() {
       this.phoneNumberPlace = []
@@ -146,11 +141,12 @@ export default {
         password: this.ruleForm.password,
         countrycode: this.value
       })
-      if (res.code != 200) {
+      console.log(res);
+      if (res.code == 502) {
         this.$message.error(res.msg)
+      } else if (res.code !== 502 && res.code != 200) {
+        this.$message.error(res.data.msg)
       }
-      this.$message.success('恭喜你，登陆成功！')
-      console.log(res)
 
     },
     clickroundBtn() {

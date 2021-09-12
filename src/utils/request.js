@@ -6,7 +6,7 @@ import {Message} from 'element-ui';
 //1. 创建新的axios实例，
 const service = axios.create({
     // 公共接口--这里注意后面会讲
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://81.68.158.36:3000',
     // 超时时间 单位是ms，这里设置了3s的超时时间
     timeout: 3 * 1000
 })
@@ -32,7 +32,6 @@ service.interceptors.request.use(config => {
 // 3.响应拦截器
 service.interceptors.response.use(response => {
     //接收到响应数据并成功后的一些共有的处理，关闭loading等
-
     return response.data
 }, error => {
     /***** 接收到异常响应的处理开始 *****/
@@ -77,15 +76,9 @@ service.interceptors.response.use(response => {
             case 505:
                 error.message = 'http版本不支持该请求'
                 break;
-            case 800:
-                error.message = '二维码已过期,请重新获取'
-                break;
-            case 803:
-                error.message = '授权登录成功'
-                break;
-
             default:
                 error.message = `连接错误${error.response.status}`
+                break;
         }
     } else {
         // 超时处理
