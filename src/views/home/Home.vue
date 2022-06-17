@@ -3,7 +3,8 @@
     <el-container>
       <el-header height="50px">
         <el-row class="router-arrow">
-          <img src="@/assets/img/wangyiyunyinle-.png" alt="" class="logo">
+          <!--          <img src="@/assets/img/topbar.png" alt="" class="logo">-->
+          <i class="logo"></i>
           <el-button boolean size="mini" icon="el-icon-arrow-left" circle></el-button>
           <el-button boolean size="mini" icon="el-icon-arrow-right" circle></el-button>
         </el-row>
@@ -25,27 +26,32 @@
       </el-header>
       <el-container class="container">
         <el-aside width="200px">
-          <user @showLoginBtn="showLoginBtn"/>
-
+          <user @showLoginBtn="showLoginpage = true"/>
         </el-aside>
-        <el-main>Main</el-main>
+        <!--        <el-main>-->
+        <div class="main">
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </div>
+
+
+        <!--        </el-main>-->
       </el-container>
       <el-footer height="60px">Footer</el-footer>
     </el-container>
-
-
     <!--   登录页面-->
-    <login-card v-show="showLoginpage"/>
+    <login-card :isShow.sync="showLoginpage" v-show="showLoginpage"/>
   </div>
 
 
 </template>
 
 <script>
-import TopMenu from "@components/TopMenu/TopMenu";
-import {getmusic} from "@/utils/api";
-import User from "@views/user/User";
-import LoginCard from "@components/loginCard/loginCard";
+import TopMenu from "@/components/TopMenu/TopMenu";
+
+import User from "@/views/user/User";
+import LoginCard from "@/components/loginCard/loginCard";
 
 export default {
   name: "Home",
@@ -57,27 +63,16 @@ export default {
   data() {
     return {
       serchinput: '',
-      showLoginpage: true,
+      showLoginpage: false,
 
     }
   },
   created() {
-    this.getmusic()
+
 
   }
   ,
-  methods: {
-    async getmusic() {
-      const res = await getmusic()
-      console.log(res);
-    },
-    showLoginBtn() {
-
-      console.log('点击了');
-      this.showLoginpage = true
-    }
-
-  },
+  methods: {},
 }
 </script>
 <style scoped>
@@ -124,8 +119,11 @@ export default {
 }
 
 .logo {
-  height: 23px;
+  width: 150px;
+  height: 50px;
   margin: 0 16px;
+  background: url("../../assets/img/topbar.png") no-repeat 0 0;
+  background-size: 180px;
 }
 
 .router-arrow {
@@ -169,10 +167,9 @@ export default {
   display: flex;
 }
 
-.el-header:hover {
-  color: #b0b0b0;
-
-}
+/*.el-header:hover {*/
+/*  color: #b0b0b0;*/
+/*}*/
 
 .el-footer {
   background-color: #252525;
@@ -195,6 +192,15 @@ export default {
   text-align: center;
   height: 560px;
   width: 800px;
+}
+
+.main {
+  background-color: #252525;
+  color: #333;
+  text-align: center;
+  height: 560px;
+  width: 800px;
+  padding: 20px;
 }
 
 .el-button {

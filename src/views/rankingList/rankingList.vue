@@ -1,12 +1,12 @@
 <template>
 <div>
-  theHostStation
+  rankingList
 </div>
 </template>
 
 <script>
 export default {
-  name: "recommendation"
+  name: "rankingList"
 }
 </script>
 

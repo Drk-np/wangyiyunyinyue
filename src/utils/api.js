@@ -6,12 +6,13 @@ import http from '../utils/http'
  */
 let loginurl = "/login/"
 let home = "/homepage/block/page"
+let user = '/user/'
+let personalized = '/personalized/'
 
 // get请求
 export function getmusic(params) {
     return http.get(`${home}`, params)
 }
-
 
 export function getcountries(params) {
     return http.get(`/countries/code/list`, params)
@@ -20,4 +21,16 @@ export function getcountries(params) {
 // 定义登录函数
 export function login(url, params) {
     return http.get(`${loginurl}${url}`, params)
+}
+
+//获取用户详情
+export function getUserInfo(url, params) {
+    return http.get(`${user}${url}`, params)
+}
+
+
+//personalized 推荐歌单
+//获取用户详情
+export function getPersonalized(params) {
+    return http.get(`${personalized}`, params)
 }

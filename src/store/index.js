@@ -8,14 +8,14 @@ export default new Vuex.Store({
         userId: ''
     },
     mutations: {
-        saveUserId(context, userid) {
-            context.state.userId = userid
+        saveUserId(state, userid) {
+           state.userId = userid
         }
 
     },
     actions: {
-        saveUserId({commit}, userid) {
-
+        saveUserId({commit}, payload) {
+            commit('saveUserId',payload)
         },
     },
     modules: {}

@@ -1,9 +1,8 @@
 <template>
   <div class="TopMenu">
     <ul>
-      <li v-for="item in menulist">
-        <a href="">{{ item }}
-        </a>
+      <li :class="{active:currentActive===index}" @click="pathTo(item.path,index)" v-for="(item,index) in menulist">
+        {{ item.title }}
       </li>
     </ul>
   </div>
@@ -14,7 +13,25 @@ export default {
   name: "TopMenu",
   data() {
     return {
-      menulist: ['个性推荐', '歌单', '主播电台', '排行榜', '歌手', '最新音乐']
+      currentActive: 0,
+      menulist: [
+        {title: '个性推荐', path: '/home/recommendation'},
+        {title: '歌单', path: '/home/musicList'},
+        {
+          title: '主播电台',
+          path: '/home/theShostStation'
+        },
+        {
+          title: '排行榜',
+          path: '/home/rankingList'
+        }, '歌手', '最新音乐']
+    }
+  },
+  methods: {
+    pathTo(path, index) {
+      if (index === this.currentActive) return
+      this.currentActive = index
+      this.$router.push(path)
     }
   }
 }
@@ -32,15 +49,19 @@ export default {
   margin: 0;
   padding: 0;
 
+
 }
 
 .TopMenu ul li {
   line-height: 50px;
   margin-left: 30px;
   font-size: 14px;
+  transition: all 0.5s;
+  cursor: pointer;
 }
 
 .active {
   color: #bababa;
+  font-size: 18px !important;
 }
 </style>

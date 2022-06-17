@@ -1,12 +1,12 @@
 <template>
 <div>
-  个性推荐
+  theShostStation
 </div>
 </template>
 
 <script>
 export default {
-  name: "recommendation"
+  name: "theHostStation"
 }
 </script>
 

@@ -1,39 +1,40 @@
 <template>
   <div slot="header" class="clearfix card">
-    <el-button class="close-button" size="mini" style="float: left;background: #fff" icon="el-icon-close"
-               round></el-button>
-    <div class="QRlogin" v-show="isQRlogin">
+    <el-button class="close-button" icon="el-icon-close" round size="mini"
+               style="float: left;background: #fff"
+               @click="closeCard"></el-button>
+    <div v-show="isQRlogin" class="QRlogin">
       <p class="QRhead"> 扫码登录</p>
       <el-image
-          style="width: 170px; height: 170px"
           :src="qrurl"
-          fit="fill">
+          fit="fill"
+          style="width: 170px; height: 170px">
         <div slot="error" class="image-slot">
           <i class="el-icon-picture-outline"></i>
         </div>
       </el-image>
       <p class="Applogin">使用
-        <el-link href="https://music.163.com/#/download" target="_blank" :underline="false" type="primary">网易云音乐APP
+        <el-link :underline="false" href="https://music.163.com/#/download" target="_blank" type="primary">网易云音乐APP
         </el-link>
         扫码登录
       </p>
-      <el-link class="footer" :underline="false" @click="isQRlogin=!isQRlogin">用其他方式登录></el-link>
+      <el-link :underline="false" class="footer" @click="otherLogin">用其他方式登录></el-link>
     </div>
-    <div class="Userlogin" v-show="!isQRlogin">
-      <el-image style="width: 260px; height: 84px;margin: 71px auto 42px auto"
-                :src="require('@/assets/img/login-phone.jpg')">
+    <div v-show="!isQRlogin" class="Userlogin">
+      <el-image :src="require('@/assets/img/login-phone.jpg')"
+                style="width: 260px; height: 84px;margin: 71px auto 42px auto">
         <div slot="error" class="image-slot">
           <i class="el-icon-picture-outline"></i>
         </div>
       </el-image>
-      <el-form :model="ruleForm" style="width:260px; margin: 0 auto;" :rules="rules" ref="ruleForm"
-               class="demo-ruleForm">
-        <el-input class="phone-number" placeholder="请输入手机号" v-model="ruleForm.phoneNumber" prefix-icon="el-icon-mobile">
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="demo-ruleForm"
+               style="width:260px; margin: 0 auto;">
+        <el-input v-model="ruleForm.phoneNumber" class="phone-number" placeholder="请输入手机号" prefix-icon="el-icon-mobile">
           <template slot="prepend">
             <el-cascader
                 v-model="value"
-                :props="props"
                 :options="phoneNumberPlace"
+                :props="props"
                 @change="handleChange"
             >
               <template v-slot:scope="{ node, data }">
@@ -44,34 +45,34 @@
           </template>
         </el-input>
         <el-form-item prop="password">
-          <el-input placeholder="请输入密码" type="password" v-model="ruleForm.password"
-                    prefix-icon="el-icon-lock"></el-input>
+          <el-input v-model="ruleForm.password" placeholder="请输入密码" prefix-icon="el-icon-lock"
+                    type="password"></el-input>
         </el-form-item>
 
-        <el-button @click="login" type="danger" style="width: 100% ;margin-top: 20px">登录</el-button>
-        <el-link :underline="false" @click="clickroundBtn" style="width: 100% ;margin-top: 10px">注册</el-link>
+        <el-button style="width: 100% ;margin-top: 20px" type="danger" @click="login">登录</el-button>
+        <el-link :underline="false" style="width: 100% ;margin-top: 10px" @click="clickroundBtn">注册</el-link>
         <el-row style="padding: 0 6px;display: flex; justify-content: space-between;margin: 10px 0;">
-          <el-button icon="icon-weixin" circle @click="clickroundBtn"></el-button>
-          <el-button icon="icon-qq" circle @click="clickroundBtn"></el-button>
-          <el-button icon="icon-weibo" circle @click="clickroundBtn"></el-button>
-          <el-button icon="icon-wangyi" circle @click="clickroundBtn"></el-button>
+          <el-button circle icon="icon-weixin" @click="clickroundBtn"></el-button>
+          <el-button circle icon="icon-qq" @click="clickroundBtn"></el-button>
+          <el-button circle icon="icon-weibo" @click="clickroundBtn"></el-button>
+          <el-button circle icon="icon-wangyi" @click="clickroundBtn"></el-button>
         </el-row>
-        <el-checkbox v-model="isAgree" label="1" class="agree" @click="!isAgree">同意
-          <el-link href="https://st.music.163.com/official-terms/service" :underline="false" style="width: 100% ;"
+        <el-checkbox v-model="isAgree" class="agree" label="1" @click="!isAgree">同意
+          <el-link :underline="false" href="https://st.music.163.com/official-terms/service" style="width: 100% ;"
                    target="_blank">
             《服务条款》
           </el-link>
-          <el-link href="https://st.music.163.com/official-terms/privacy" :underline="false" style="width: 100% ;"
+          <el-link :underline="false" href="https://st.music.163.com/official-terms/privacy" style="width: 100% ;"
                    target="_blank">
             《隐私政策》
           </el-link>
-          <el-link href="https://st.music.163.com/official-terms/children" :underline="false" style="width: 100% ;"
+          <el-link :underline="false" href="https://st.music.163.com/official-terms/children" style="width: 100% ;"
                    target="_blank">
             《儿童隐私政策》
           </el-link>
         </el-checkbox>
       </el-form>
-      <el-button size="mini" type="danger" class="QRloginBtn" @click="qrlogin" round>二维码</el-button>
+      <el-button class="QRloginBtn" round size="mini" type="danger" @click="qrlogin">二维码</el-button>
     </div>
   </div>
 </template>
@@ -80,16 +81,19 @@
 <script>
 
 import {getcountries, login} from '@/utils/api'
+import {mapActions} from 'vuex'
 
 export default {
   name: "loginCard",
   data() {
     return {
+      timer: null,//计时器
       // 级联选择器定义
       props: {
         label: 'zh',
         value: 'code'
       },
+
       // 是否同意条款
       isAgree: false,
       // 选定的结果
@@ -114,13 +118,32 @@ export default {
       }
     }
   },
+  props: {
+    isShow: {
+      type: Boolean,
+      default: false
+    }
+  },
+  watch: {
+    isShow(isShow) {
+      if (isShow) {
+        this.getcountries()
+        this.qrlogin()
+      }
+    }
+  },
   created() {
-    this.qrlogin()
-    this.getcountries()
-
   },
   methods: {
-
+    ...mapActions(['saveUserId']),
+    closeCard() {
+      this.$emit("update:isShow", false);
+      clearInterval(this.timer)
+    },
+    otherLogin() {
+      this.isQRlogin = !this.isQRlogin
+      clearInterval(this.timer)
+    },
     // 获取国家列表
     async getcountries() {
       this.phoneNumberPlace = []
@@ -141,13 +164,14 @@ export default {
         password: this.ruleForm.password,
         countrycode: this.value
       })
-      console.log(res);
-      if (res.code == 502) {
-        this.$message.error(res.msg)
-      } else if (res.code !== 502 && res.code != 200) {
-        this.$message.error(res.data.msg)
+      if (res.code == 200) {
+        this.$message.success('登陆成功')
+        this.saveUserId(res.account.id)
+        this.$bus.$emit('test', res.account.id)
+        this.closeCard()
+      } else {
+        this.$message.error('账号或密码错误，请重试')
       }
-
     },
     clickroundBtn() {
       this.$message.error('ε=(´ο｀*)))唉~功能还在开发中~')
@@ -163,7 +187,6 @@ export default {
         timerstamp: timenow,
         withCredentials: true, //关键
       })
-      console.log(key)
       let {data: url} = await login('qr/create', {
         key: key.data.unikey,
         qrimg: true,
@@ -171,15 +194,16 @@ export default {
         withCredentials: true, //关键
       })
       this.qrurl = url.qrimg
-      let timer = setInterval(async () => {
-        const statusRes = await this.checkStatus(key.data.unikey)
-        if (statusRes.code === 800) {
+      this.timer = setInterval(async () => {
+        const res = await this.checkStatus(key.data.unikey)
+        if (res.code === 800) {
           alert('二维码已过期,请重新获取')
-          clearInterval(timer)
+          clearInterval(this.timer)
         }
-        if (statusRes.code === 803) {
+        if (res.code === 803) {
           // 这一步会返回cookie
-          clearInterval(timer)
+          console.log(res)
+          this.closeCard()
           this.$message.success('授权登录成功')
         }
       }, 3000)
