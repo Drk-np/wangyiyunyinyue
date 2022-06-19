@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <el-carousel :interval="4000" type="card" height="150px">
-      <el-carousel-item v-for="(item,index) in banners" :key="index">
+      <el-carousel-item class="image-item" v-for="(item,index) in banners" :key="index">
         <el-image class="image" :src="item.pic"></el-image>
       </el-carousel-item>
     </el-carousel>
@@ -20,6 +20,7 @@
 <script>
 import {getmusic, getPersonalized} from "@/utils/api";
 import musicCard from '@/components/musicCard/musicCard';
+
 export default {
   name: "recommendation",
   data() {
@@ -27,7 +28,7 @@ export default {
       banners: []  //首页轮播图
     }
   },
-  components:{
+  components: {
     musicCard
   },
   created() {
@@ -58,7 +59,8 @@ export default {
   height: 100%;
   color: white;
 }
-.page h3{
+
+.page h3 {
   text-align: left;
   cursor: pointer;
 }
@@ -68,4 +70,10 @@ export default {
   width: 382px;
   height: 150px;
 }
+
+.image-item {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
 </style>
