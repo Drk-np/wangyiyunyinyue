@@ -5,8 +5,12 @@
         <el-image class="image" :src="item.pic"></el-image>
       </el-carousel-item>
     </el-carousel>
-    <h3>获取歌单 <i class="el-icon-arrow-right"></i></h3>
-    <music-card></music-card>
+    <h3>推荐歌单 <i class="el-icon-arrow-right"></i></h3>
+    <div class="box">
+      <musicRd class="music-card"/>
+      <music-card class="music-card" v-for="(item,index) in personalizedList" :key="index" :baseContent="item"/>
+    </div>
+
     <h3>热门博客<i class="el-icon-arrow-right"></i></h3>
     <h3>独家放送<i class="el-icon-arrow-right"></i></h3>
     <h3>最新音乐<i class="el-icon-arrow-right"></i></h3>
@@ -20,16 +24,19 @@
 <script>
 import {getmusic, getPersonalized} from "@/utils/api";
 import musicCard from '@/components/musicCard/musicCard';
+import musicRd from '@/components/musicRecommended/musicRecommended';
 
 export default {
   name: "recommendation",
   data() {
     return {
-      banners: []  //首页轮播图
+      banners: [], //首页轮播图
+      personalizedList: []
     }
   },
   components: {
-    musicCard
+    musicCard,
+    musicRd
   },
   created() {
     this.getmusic()
@@ -47,7 +54,9 @@ export default {
       const res = await getPersonalized({
         limit: 9
       })
-      console.log(res);
+      if (res.code == 200) {
+        this.personalizedList = res.result
+      }
     }
   }
 }
@@ -75,5 +84,14 @@ export default {
   border-radius: 10px;
   overflow: hidden;
 }
+
+.box {
+  display: flex;
+  justify-content: space-around;
+  /*align-items: center;*/
+  flex-wrap: wrap;
+}
+
+
 
 </style>

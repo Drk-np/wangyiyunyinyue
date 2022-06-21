@@ -8,7 +8,7 @@ const service = axios.create({
     // 公共接口--这里注意后面会讲
     baseURL: 'http://8.141.170.231:8001',
     // 超时时间 单位是ms，这里设置了3s的超时时间
-    timeout: 3 * 1000
+    timeout: 10 * 1000
 })
 // 2.请求拦截器
 service.interceptors.request.use(config => {
