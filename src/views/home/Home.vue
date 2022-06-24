@@ -38,7 +38,9 @@
 
         <!--        </el-main>-->
       </el-container>
-      <el-footer height="60px">Footer</el-footer>
+      <el-footer height="80px">
+        <audio-box></audio-box>
+      </el-footer>
     </el-container>
     <!--   登录页面-->
     <login-card :isShow.sync="showLoginpage" v-show="showLoginpage"/>
@@ -52,10 +54,12 @@ import TopMenu from "@/components/TopMenu/TopMenu";
 
 import User from "@/views/user/User";
 import LoginCard from "@/components/loginCard/loginCard";
+import AudioBox from "@/components/audilBox/audioBox";
 
 export default {
   name: "Home",
   components: {
+    AudioBox,
     LoginCard,
     User,
     TopMenu
