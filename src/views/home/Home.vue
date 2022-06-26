@@ -34,8 +34,6 @@
             <router-view></router-view>
           </keep-alive>
         </div>
-
-
         <!--        </el-main>-->
       </el-container>
       <el-footer height="80px">
@@ -54,7 +52,7 @@ import TopMenu from "@/components/TopMenu/TopMenu";
 
 import User from "@/views/user/User";
 import LoginCard from "@/components/loginCard/loginCard";
-import AudioBox from "@/components/audilBox/audioBox";
+import AudioBox from "@/components/audioBox/audioBox";
 
 export default {
   name: "Home",
@@ -237,6 +235,8 @@ export default {
 .el-button:hover {
   background: #373737;
 }
-
+.el-footer{
+  padding: 0;
+}
 
 </style>

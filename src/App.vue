@@ -11,4 +11,5 @@
 }
 
 @import 'assets/iconfont/iconfont.css';
+@import "assets/audioIcon/iconfont.css";
 </style>

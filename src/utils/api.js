@@ -34,3 +34,9 @@ export function getUserInfo(url, params) {
 export function getPersonalized(params) {
     return http.get(`${personalized}`, params)
 }
+
+
+//获取音乐 url
+export function playcount(params) {
+    return http.get(`/song/url`, params)
+}
