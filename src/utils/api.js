@@ -35,6 +35,16 @@ export function getPersonalized(params) {
     return http.get(`${personalized}`, params)
 }
 
+//获取歌单详情
+export function playlistDetail(params) {
+    return http.get(`/playlist/detail`, {id: params})
+}
+
+//获取歌单音乐
+export function playlistTrackAll(params) {
+    return http.get(`/playlist/track/all`, {id: params})
+}
+
 
 //获取音乐 url
 export function playcount(params) {

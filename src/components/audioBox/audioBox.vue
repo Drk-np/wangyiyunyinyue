@@ -1,7 +1,7 @@
 <template>
   <div ref="div">
     <div class="progress-bar" ref="progressBar">
-      <el-slider style="width: 100%" :step="0.01" v-model="percentage" @change="percentageChange"
+      <el-slider :step="0.01" v-model="percentage" @change="percentageChange"
                  :show-tooltip="false"></el-slider>
       <!--      <div :style="{width:percentage/100*progressBarWidth+'px'}" class="bar"></div>-->
       <!--      <div ref="ball" class="ball" @mouseup="mouseup" @mousedown="ballDrag" @mouseout="mouseup"></div>-->
@@ -193,6 +193,11 @@ export default {
 </script>
 
 <style scoped>
+.el-slider {
+  margin: 0 auto;
+  width: calc(100% - 5px)
+}
+
 .audio-box {
   width: 100%;
   height: 78px;
@@ -209,7 +214,7 @@ export default {
 .progress-bar {
   width: 100%;
   height: 2px;
-  background-color: #0077aa;
+  /*background-color: #0077aa;*/
   display: flex;
   align-items: center;
 }
@@ -340,7 +345,7 @@ export default {
 
 .progress-bar >>> .el-slider__runway {
   background-color: #4b4b4b;
-    height: 2px;
+  height: 2px;
 }
 
 .progress-bar >>> .el-slider__bar {

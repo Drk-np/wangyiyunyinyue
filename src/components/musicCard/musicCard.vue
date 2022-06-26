@@ -1,5 +1,5 @@
 <template>
-  <div class="image-block">
+  <div class="image-block" @click="getContent">
     <el-image :src="baseContent.picUrl" fit="fill">
       <div slot="error" class="image-slot">
         <i class="el-icon-picture-outline"></i>
@@ -37,6 +37,17 @@ export default {
       }
     }
   },
+  methods: {
+    getContent() {
+      this.$router.push({
+        name: 'musicMenu',
+        query:{
+          id:this.baseContent.id
+        }
+      })
+    }
+  },
+
   computed: {
     playCount() {
       if (!this.baseContent.playCount) return ''

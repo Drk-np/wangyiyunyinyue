@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import page from "@/views/home/Home";
 
 Vue.use(VueRouter)
 
@@ -11,27 +12,50 @@ const routes = [
     {
         path: '/home',
         name: 'home',
-        component: () => import( '@/views/home/Home.vue'),
+        component: page,
+        redirect: '/home/recommendation',
+        meta: {keepalive: true,},
         children: [
             {//个性推荐
                 path: '/home/recommendation',
                 name: 'recommendation',
-                component: () => import('@/views/recommendation/recommendation.vue')
+                component: () => import('@/views/recommendation/recommendation.vue'),
+                meta: {keepalive: true,},
             },
             {//歌单
                 path: '/home/musiclist',
                 name: 'musiclist',
-                component: () => import('@/views/musicList/musiclist')
+                component: () => import('@/views/musicList/musiclist'),
+                meta: {keepalive: true,},
             },
             {//电台
                 path: '/home/theShostStation',
                 name: 'theShostStation',
-                component: () => import( '@/views/theHostStation/theHostStation')
+                component: () => import( '@/views/theHostStation/theHostStation'),
+                meta: {keepalive: true,},
             },
             {//排行榜
                 path: '/home/rankingList',
                 name: 'rankingList',
-                component: () => import( '@/views/rankingList/rankingList.vue')
+                component: () => import( '@/views/rankingList/rankingList.vue'),
+                meta: {keepalive: true,},
+            }
+
+        ]
+    },
+    {
+        path: '/musicList',
+        name: 'musicList',
+        component: page,
+        children: [
+            {//歌单
+                path: '/musicList/musicMenu',
+                name: 'musicMenu',
+                component: () => import('@/views/musicMenu/musicMenu.vue'),
+                meta: {
+                    keepalive: false,
+                    isBack: false,
+                }
             }
 
         ]

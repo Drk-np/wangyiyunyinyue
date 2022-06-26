@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     pathTo(path, index) {
-      if (index === this.currentActive) return
+      // if (index === this.currentActive) return
       this.currentActive = index
       this.$router.push(path)
     }

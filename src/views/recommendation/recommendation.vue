@@ -6,11 +6,10 @@
       </el-carousel-item>
     </el-carousel>
     <h3>推荐歌单 <i class="el-icon-arrow-right"></i></h3>
-    <div class="box">
-      <musicRd class="music-card"/>
-      <music-card class="music-card" v-for="(item,index) in personalizedList" :key="index" :baseContent="item"/>
+    <div class="box"  >
+      <musicRd class="music-card" @click="getContent"/>
+      <music-card  @click="getContent" class="music-card"v-for="(item,index) in personalizedList" :key="index" :baseContent="item"/>
     </div>
-
     <h3>热门博客<i class="el-icon-arrow-right"></i></h3>
     <h3>独家放送<i class="el-icon-arrow-right"></i></h3>
     <h3>最新音乐<i class="el-icon-arrow-right"></i></h3>
@@ -57,6 +56,12 @@ export default {
       if (res.code == 200) {
         this.personalizedList = res.result
       }
+    },
+    getContent(){
+      console.log('m');
+      this.$router.push({
+        name:'musicMenu'
+      })
     }
   }
 }
@@ -68,6 +73,7 @@ export default {
   height: 100%;
   color: white;
 }
+
 
 .page h3 {
   text-align: left;
@@ -91,7 +97,9 @@ export default {
     justify-content: space-between;
     align-items: flex-start;
 }
-
+.music-card{
+  z-index: 98;
+}
 
 
 </style>

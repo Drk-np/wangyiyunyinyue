@@ -5,8 +5,8 @@
         <el-row class="router-arrow">
           <!--          <img src="@/assets/img/topbar.png" alt="" class="logo">-->
           <i class="logo"></i>
-          <el-button boolean size="mini" icon="el-icon-arrow-left" circle></el-button>
-          <el-button boolean size="mini" icon="el-icon-arrow-right" circle></el-button>
+          <el-button boolean size="mini" icon="el-icon-arrow-left" @click="$router.go(-1)" circle></el-button>
+          <el-button boolean size="mini" icon="el-icon-arrow-right" @click="$router.go(1)" circle></el-button>
         </el-row>
         <el-row class="top-menu">
           <top-menu></top-menu>
@@ -31,8 +31,9 @@
         <!--        <el-main>-->
         <div class="main">
           <keep-alive>
-            <router-view></router-view>
+            <router-view v-if="$route.meta.keepalive"></router-view>
           </keep-alive>
+          <router-view v-if="!$route.meta.keepalive"></router-view>
         </div>
         <!--        </el-main>-->
       </el-container>
@@ -203,26 +204,29 @@ export default {
   height: 560px;
   width: 100%;
   padding: 20px;
+  padding-bottom: 0;
   overflow: scroll;
   box-sizing: border-box;
 }
 
 .main::-webkit-scrollbar {
-    /*滚动条整体样式*/
-    width : 5px;  /*高宽分别对应横竖滚动条的尺寸*/
-    height: 1px;
-  }
-  .main::-webkit-scrollbar-thumb {
-    /*滚动条里面小方块*/
-    border-radius   : 10px;
-    background-color: skyblue;
-  }
-  .main::-webkit-scrollbar-track {
-    /*滚动条里面轨道*/
-    box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background   : #252525;
-    border-radius: 10px;
-  }
+  /*滚动条整体样式*/
+  width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+}
+
+.main::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 10px;
+  background-color: skyblue;
+}
+
+.main::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #252525;
+  border-radius: 10px;
+}
 
 
 .el-button {
@@ -235,7 +239,8 @@ export default {
 .el-button:hover {
   background: #373737;
 }
-.el-footer{
+
+.el-footer {
   padding: 0;
 }
 
