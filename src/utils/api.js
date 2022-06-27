@@ -40,6 +40,12 @@ export function playlistDetail(params) {
     return http.get(`/playlist/detail`, {id: params})
 }
 
+//获取歌单详情
+export function songDetail(params) {
+    return http.get(`/song/detail`, {id: params})
+}
+
+
 //获取歌单音乐
 export function playlistTrackAll(params) {
     return http.get(`/playlist/track/all`, {id: params})
