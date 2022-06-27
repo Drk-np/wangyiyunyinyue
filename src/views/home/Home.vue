@@ -151,7 +151,7 @@ export default {
 }
 
 .home-container {
-  height: 670px;
+  /*height: 670px;*/
   width: 1004px;
   display: block;
   position: absolute;

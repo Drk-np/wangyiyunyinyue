@@ -46,6 +46,7 @@
               color: '#606266',
               fontsize:'8px'
             }"
+
             :row-style="{
 
               color: '#606266',
@@ -54,25 +55,39 @@
             style="width: 100%"
         >
           <el-table-column
+              align="center"
               type="index"
               width="50">
           </el-table-column>
           <el-table-column
+
+              width="70">
+            <template slot-scope="{row}">
+              <!--              <i  class="table-icon  el-icon-star-on"></i>-->
+              <i class="table-icon el-icon-star-off"></i>
+              <i class="table-icon el-icon-download"></i>
+            </template>
+          </el-table-column>
+          <el-table-column
               prop="name"
               label="音乐标题"
+              show-overflow-tooltip
               min-width="80px">
           </el-table-column>
           <el-table-column
               prop="ar[0].name"
-               width="110px"
+              show-overflow-tooltip
+              width="130px"
               label="歌手">
           </el-table-column>
           <el-table-column
               prop="al.name"
+              show-overflow-tooltip
               label="专辑">
           </el-table-column>
           <el-table-column
               prop="sq.size"
+              align="center"
               label="时长"
               width="70px"
               :formatter="transTime">
@@ -261,18 +276,48 @@ export default {
   background: #252525;
 }
 
-.page >>> .el-table th:hover, .page >>> .el-table tr:hover {
-  background: #4d4a4a !important;
-}
+/*.page >>> .el-table th:hover, .page >>> .el-table tr:hover {*/
+/*  background: #4d4a4a !important;*/
+/*}*/
 
 .page >>> .el-table tbody tr:hover > td {
-  background-color:  #4d4a4a;
+  background-color: #4d4a4a;
   color: white;
 }
+
 .page >>> .el-table tbody tr > td {
-  background-color:  #252525;
+  background-color: #252525;
+  border: none;
+}
+
+.el-table, .el-table__expanded-cell {
+  background-color: #252525;
+}
+
+.el-table--border::after, .el-table--group::after, .el-table::before {
+  background-color: #252525;
+}
+
+.table-icon {
+  font-size: 20px;
+  line-height: 27px;
+  color: #606266;
+  cursor: pointer;
+}
+
+.table-icon:hover {
+  color: #b2c0e0;
 
 }
 
+.el-icon-download {
+  margin-left: 5px;
+}
+
+.el-icon-star-on {
+  font-size: 24px;
+  position: relative;
+  top: 1.5px;
+}
 
 </style>
