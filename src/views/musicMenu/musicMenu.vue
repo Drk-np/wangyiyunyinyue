@@ -40,19 +40,22 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="歌曲列表" name="musiclist">
         <el-table
+            v-loading="loading"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
             :data="musicList"
             :header-cell-style="{
               background: '#252525',
               color: '#606266',
               fontsize:'8px'
             }"
-
             :row-style="{
 
               color: '#606266',
               fontsize:'8px'
             }"
             style="width: 100%"
+            @row-dblclick="addMusic"
         >
           <el-table-column
               align="center"
@@ -103,6 +106,7 @@
 
 <script>
 import {playlistDetail, playlistTrackAll} from "@/utils/api";
+import {mapActions} from "vuex";
 
 export default {
   name: "musicMenu",
@@ -111,7 +115,8 @@ export default {
       musicMessage: {},
       musicList: [],
       showMore: false,
-      activeName: 'musiclist'
+      activeName: 'musiclist',
+      loading: false,
     }
   },
   props: {
@@ -122,17 +127,33 @@ export default {
       }
     }
   },
-  async mounted() {
-    let id = this.$route.query.id
-    let res = await playlistDetail(id)
-    this.musicMessage = res.playlist
-    console.log(res)
-    res = await playlistTrackAll(id)
-    this.musicList = res.songs
+  mounted() {
+    this.getMusicMenu()
   },
   methods: {
+    ...mapActions(['addToMusicList']),
+    // 发送替换音乐事件
+    addMusic(	row, column, event){
+      this.$bus.$emit('setNewMusic',row)
+    },
+    //获取歌单
+    async getMusicMenu() {
+      this.loading = true
+      let id = this.$route.query.id
+      //获取歌单详情
+      playlistDetail(id).then(res => {
+        this.musicMessage = res.playlist
+      })
+      //获取歌单歌曲列表
+      playlistTrackAll(id).then(res => {
+        this.musicList = res.songs
+      }).finally(_ => {
+        this.loading = false
+      })
+    },
+
     handleClick(tab, event) {
-      console.log(tab, event);
+
     },
     //格式化时间
     transTime(UnixTime) {
@@ -157,8 +178,13 @@ export default {
   color: #b3b3b3;
   text-align: left;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
+.el-tabs {
+  flex: 1;
+}
 
 .button {
   margin-top: 10px;
@@ -318,6 +344,27 @@ export default {
   font-size: 24px;
   position: relative;
   top: 1.5px;
+}
+
+/*.page >>> .el-loading-mask{*/
+/*  background: #252525;*/
+/*}*/
+
+.page >>> .el-tabs__content {
+  height: calc(100% - 40px - 15px);
+}
+
+.el-tab-pane {
+  height: 100%;
+}
+
+.el-table {
+  height: 100%;
+}
+
+.page >>> .el-icon-loading {
+  font-size: 30px;
+  color: #4B4B4B;
 }
 
 </style>

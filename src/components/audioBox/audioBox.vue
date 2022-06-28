@@ -35,9 +35,8 @@
           <div class="iconfont icon-laba"></div>
         </div>
       </div>
-      <audio id="player" v-show="false" ref="player" @ended="ended" @canplay="canPlay" :src="file"></audio>
+      <audio id="player" v-show="false" ref="player" @canplay="canPlay" crossorigin="anonymous" :src="file"></audio>
     </div>
-
   </div>
 </template>
 
@@ -72,7 +71,25 @@ export default {
       isFirst: true,
     }
   },
+  async mounted() {
+    this.audio = this.$refs.player;
+    this.progressBarWidth = this.$refs.progressBar.offsetWidth
+    this.init();
+    this.$bus.$on('setNewMusic', this.getMusicInfo)
+  },
   methods: {
+    /**
+     * 获取歌曲详情 url
+     */
+    async getMusicInfo(song) {
+      let res = await playcount({id: song.id})
+      console.log(res);
+      if (res.code === 200) {
+        this.file = res.data[0].url
+        this.percentage = 0
+      }
+    },
+
     //格式化时间
     transTime(time) {
       var duration = parseInt(time);
@@ -89,27 +106,21 @@ export default {
       }
       return minute + isM0 + sec
     },
-    setPosition() {
 
-    },
-    ended() {
-
-    },
     canPlay() {
-
+      // if (this.playing) this.play()
     },
     percentageChange(e) {
       this.audio.currentTime = parseInt(this.audio.duration / 100 * e);
     },
-    stop() {
-      this.audio.pause()
-      this.playing = false
-      this.audio.currentTime = 0
-    },
     play() {
       // if (this.playing) return
-      this.audio.play().then(_ => this.playing = !this.playing)
-      this.paused = false
+      this.audio.play().then(_ => {
+            this.playing = true
+            this.paused = false
+          }
+      )
+
     },
     pause() {
       this.paused = !this.paused
@@ -138,6 +149,7 @@ export default {
         } else {
           this.totalDuration = this.transTime(this.audio.duration)
           this.loaded = true
+          this.play()
         }
         // if (this.autoPlay) this.audio.play()
       } else {
@@ -145,14 +157,13 @@ export default {
       }
     },
     _handlePlayingUI: function (e) {
-
       this.audio.volume = this.playerVolume
       this.percentage = Number(((this.audio.currentTime / this.audio.duration) * 100).toFixed(2))
       this.currentTime = this.transTime(this.audio.currentTime)
       // this.playing = true
+
     },
     _handlePlayPause: function (e) {
-      console.log(e)
       // if (e.type === 'play' && this.firstPlay) {
       //   // in some situations, audio.currentTime is the end one on chrome
       //   this.audio.currentTime = 0;
@@ -165,7 +176,8 @@ export default {
       }
     },
     _handleEnded() {
-      this.paused = this.playing = false;
+      //根据播放模式判断是否下一曲
+      // this.paused = this.playing = false;
     },
     init: function () {
       this.audio.addEventListener('timeupdate', this._handlePlayingUI);
@@ -175,19 +187,14 @@ export default {
       this.audio.addEventListener('ended', this._handleEnded);
     },
   },
-  async mounted() {
-    this.audio = this.$refs.player;
-    this.progressBarWidth = this.$refs.progressBar.offsetWidth
-    this.init();
-    let res = await playcount({id: 33894312})
-    this.file = res.data[0].url
-  },
+
   beforeDestroy() {
     this.audio.removeEventListener('timeupdate', this._handlePlayingUI)
     this.audio.removeEventListener('loadeddata', this._handleLoaded)
     this.audio.removeEventListener('pause', this._handlePlayPause)
     this.audio.removeEventListener('play', this._handlePlayPause)
     this.audio.removeEventListener('ended', this._handleEnded);
+    this.$bus.$off('setNewMusic')
   }
 }
 </script>

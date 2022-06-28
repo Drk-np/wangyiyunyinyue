@@ -40,9 +40,9 @@ export function playlistDetail(params) {
     return http.get(`/playlist/detail`, {id: params})
 }
 
-//获取歌单详情
+//获取歌曲详情
 export function songDetail(params) {
-    return http.get(`/song/detail`, {id: params})
+    return http.get(`/song/detail`, {ids: params})
 }
 
 
