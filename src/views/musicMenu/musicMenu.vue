@@ -106,7 +106,7 @@
 
 <script>
 import {playlistDetail, playlistTrackAll} from "@/utils/api";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "musicMenu",
@@ -117,7 +117,11 @@ export default {
       showMore: false,
       activeName: 'musiclist',
       loading: false,
+      menueId:this.musicMenuId
     }
+  },
+  computed:{
+    ...mapGetters(['currentIndex','musicMenuId'])
   },
   props: {
     baseContent: {
@@ -135,11 +139,25 @@ export default {
     // 发送替换音乐事件
     addMusic(	row, column, event){
       this.$bus.$emit('setNewMusic',row)
+     let  currentIndex = null
+      //替换当前播放列表
+      for(let i in this.musicList ){
+        if(row.id === this.musicList[i].id){
+          currentIndex = i
+          break
+        }
+      }
+      this.addToMusicList({
+        musicList:this.musicList,
+        index:currentIndex,
+        musicMenuId:this.menueId
+      })
     },
     //获取歌单
     async getMusicMenu() {
       this.loading = true
       let id = this.$route.query.id
+      this.menueId = id
       //获取歌单详情
       playlistDetail(id).then(res => {
         this.musicMessage = res.playlist

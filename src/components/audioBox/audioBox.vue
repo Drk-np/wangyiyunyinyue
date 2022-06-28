@@ -11,9 +11,9 @@
                                    src="https://p2.music.126.net/oS3ZLQ66uGPMnnOJDzDlBw==/19093019417022416.jpg"
                                    alt="">
         <div>
-          <div class="music-name-block"><p class="music-name">POP/STARS<span>(英雄联盟2018全球总决赛·决赛开幕式开场曲)</span></p>
+          <div class="music-name-block"><p class="music-name">{{ currentMusic.name }}<span>{{currentMusic.subtitle===undefined?'':(currentMusic.subtitle)}}</span></p>
             <p>-</p>
-            <p class="music-singer">K/DA/Madison B1111111</p></div>
+            <p class="music-singer">{{currentMusic.author}}</p></div>
           <div class="time"> {{ currentTime }} / {{ totalDuration }}</div>
         </div>
       </div>
@@ -35,7 +35,7 @@
           <div class="iconfont icon-laba"></div>
         </div>
       </div>
-      <audio id="player" v-show="false" ref="player" @canplay="canPlay" crossorigin="anonymous" :src="file"></audio>
+      <audio id="player" v-show="false" ref="player" @canplay="canPlay" crossorigin="anonymous" :src="currentMusic.url"></audio>
     </div>
   </div>
 </template>
@@ -43,6 +43,7 @@
 <script>
 
 import {playcount} from '@/utils/api'
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'audioBox',
@@ -52,7 +53,9 @@ export default {
       default: false
     },
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['currentMusic'])
+  },
   data() {
     return {
       firstPlay: true,
@@ -64,7 +67,6 @@ export default {
       totalDuration: 0,
       playerVolume: 0.5,
       playing: false,
-      file: '',
       progressBarWidth: 0,
       moveStart: 0,
       moveStop: 0,
@@ -78,15 +80,26 @@ export default {
     this.$bus.$on('setNewMusic', this.getMusicInfo)
   },
   methods: {
+    ...mapActions(['setCurrentMusic']),
+
     /**
      * 获取歌曲详情 url
      */
     async getMusicInfo(song) {
       let res = await playcount({id: song.id})
-      console.log(res);
+      console.log(res)
       if (res.code === 200) {
-        this.file = res.data[0].url
+        let music = res.data[0]
         this.percentage = 0
+        this.setCurrentMusic({
+          url: music.url,
+          name: music.name,
+          subtitle:music.alia[0].name,
+          author: music.ar[0].name,
+          musicId: music.id,
+          isLike: false,
+          share: '',
+        })
       }
     },
 
@@ -106,7 +119,6 @@ export default {
       }
       return minute + isM0 + sec
     },
-
     canPlay() {
       // if (this.playing) this.play()
     },

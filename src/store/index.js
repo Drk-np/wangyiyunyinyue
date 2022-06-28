@@ -12,7 +12,7 @@ export default new Vuex.Store({
             headUrl: '',
             nickname: ''
         },
-        Playlist: [],
+        playlist: [],
         currentMusic: {
             url: '',
             name: '',
@@ -22,7 +22,8 @@ export default new Vuex.Store({
             isLike: null,
             share: ''
         },
-        currentMusicIndex:0
+        currentMusicIndex: null,
+        musicMenuId: null
     },
     mutations: {
         //登录保存当前用户id
@@ -37,8 +38,21 @@ export default new Vuex.Store({
                 nickname: ''
             }
         },
-        ADDPLAYLIST(state,music){
-
+        ADDPLAYLIST(state, music) {
+            if (state.musicMenuId !== music.musicMenuId && state.playlist.length !== music.musicList.length) {
+                state.musicMenuId = music.musicMenuId
+                state.playlist = music.musicList
+            }
+            state.currentMusicIndex = music.index
+        },
+        SETCUURENTMUSIC(state, music) {
+            state.currentMusic.url = music.url
+            state.currentMusic.name = music.name
+            state.currentMusic.subtitle = music.subtitle
+            state.currentMusic.author = music.author
+            state.currentMusic.musicId = music.musicId
+            state.currentMusic.isLike = music.isLike
+            state.currentMusic.share = music.share
         }
     },
     actions: {
@@ -51,12 +65,18 @@ export default new Vuex.Store({
             commit('DELETEUSERID', payload)
         },
         // 添加到歌单
-        addToMusicList({commit}, payload){
+        addToMusicList({commit}, payload) {
             commit('ADDPLAYLIST', payload)
-        }
+        },
+        setCurrentMusic({commit}, payload) {
+            commit('SETCUURENTMUSIC', payload)
+        },
     },
     modules: {},
-    getters:{
-
+    getters: {
+        currentIndex: state => state.currentMusicIndex,   //当前播放下标
+        musicMenuId: state => state.musicMenuId,         //当前歌单
+        playLength: state => state.playlist.length,   //歌单长度
+        currentMusic: state => state.currentMusic  //当前歌曲
     }
 })
