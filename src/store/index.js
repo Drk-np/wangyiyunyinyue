@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from "vuex-persistedstate"
+import createPersistedState from "vuex-persistedstate"  //持久化vuex
 
 Vue.use(Vuex)
 
@@ -20,7 +20,8 @@ export default new Vuex.Store({
             author: '',
             musicId: '',
             isLike: null,
-            share: ''
+            share: '',
+            picUrl: ''
         },
         currentMusicIndex: null,
         musicMenuId: null
@@ -43,7 +44,7 @@ export default new Vuex.Store({
                 state.musicMenuId = music.musicMenuId
                 state.playlist = music.musicList
             }
-            state.currentMusicIndex = music.index
+            state.currentMusicIndex = Number(music.index)
         },
         SETCUURENTMUSIC(state, music) {
             state.currentMusic.url = music.url
@@ -53,7 +54,11 @@ export default new Vuex.Store({
             state.currentMusic.musicId = music.musicId
             state.currentMusic.isLike = music.isLike
             state.currentMusic.share = music.share
-        }
+            state.currentMusic.picUrl = music.picUrl
+        },
+        UPDATAMUSICINDEX(state, index) {
+            state.currentMusicIndex = Number(index)
+        },
     },
     actions: {
         //登录保存当前用户id
@@ -71,12 +76,17 @@ export default new Vuex.Store({
         setCurrentMusic({commit}, payload) {
             commit('SETCUURENTMUSIC', payload)
         },
+        upDateMusicIndex({commit}, payload) {
+            commit('UPDATAMUSICINDEX', payload)
+        },
     },
     modules: {},
     getters: {
         currentIndex: state => state.currentMusicIndex,   //当前播放下标
         musicMenuId: state => state.musicMenuId,         //当前歌单
         playLength: state => state.playlist.length,   //歌单长度
-        currentMusic: state => state.currentMusic  //当前歌曲
+        currentMusic: state => state.currentMusic,  //当前歌曲
+        playlist: state => state.playlist  //当前歌曲列表
     }
+
 })

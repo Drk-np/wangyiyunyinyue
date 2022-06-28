@@ -7,23 +7,24 @@
       <!--      <div ref="ball" class="ball" @mouseup="mouseup" @mousedown="ballDrag" @mouseout="mouseup"></div>-->
     </div>
     <div class="audio-box">
-      <div class="left-block"><img class="audio-image"
-                                   src="https://p2.music.126.net/oS3ZLQ66uGPMnnOJDzDlBw==/19093019417022416.jpg"
-                                   alt="">
+      <div class="left-block">
+        <img class="audio-image" :src="currentMusic.picUrl" alt="">
         <div>
-          <div class="music-name-block"><p class="music-name">{{ currentMusic.name }}<span>{{currentMusic.subtitle===undefined?'':(currentMusic.subtitle)}}</span></p>
+          <div class="music-name-block">
+            <p class="music-name">{{ currentMusic.name }}
+              <span>{{ currentMusic.subtitle === '' ? '' : (currentMusic.subtitle) }}</span></p>
             <p>-</p>
-            <p class="music-singer">{{currentMusic.author}}</p></div>
+            <p class="music-singer">{{ currentMusic.author }}</p></div>
           <div class="time"> {{ currentTime }} / {{ totalDuration }}</div>
         </div>
       </div>
       <div class="center-block">
         <div class="iconfont icon-shoucang"></div>
         <!--      <div class="iconfont icon-shoucang1"></div>-->
-        <div class="iconfont icon-shangyishou"></div>
+        <div class="iconfont icon-shangyishou" @click="lastSong"></div>
         <div class="iconfont icon-bofang" v-show="playing" @click="pause"></div>
         <div class="iconfont icon-bofang2" v-show="!playing" @click="play"></div>
-        <div class="iconfont icon-xiayishou"></div>
+        <div class="iconfont icon-xiayishou" @click="nextSong"></div>
         <div class="iconfont icon-fenxiang"></div>
       </div>
       <div class="right-block">
@@ -35,7 +36,8 @@
           <div class="iconfont icon-laba"></div>
         </div>
       </div>
-      <audio id="player" v-show="false" ref="player" @canplay="canPlay" crossorigin="anonymous" :src="currentMusic.url"></audio>
+      <audio id="player" v-show="false" ref="player" @canplay="canPlay" crossorigin="anonymous"
+             :src="currentMusic.url"></audio>
     </div>
   </div>
 </template>
@@ -54,7 +56,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['currentMusic'])
+    ...mapGetters(['currentMusic', 'currentIndex', 'playlist']),
   },
   data() {
     return {
@@ -71,6 +73,7 @@ export default {
       moveStart: 0,
       moveStop: 0,
       isFirst: true,
+      currentMusicIndex: null
     }
   },
   async mounted() {
@@ -80,23 +83,47 @@ export default {
     this.$bus.$on('setNewMusic', this.getMusicInfo)
   },
   methods: {
-    ...mapActions(['setCurrentMusic']),
+    ...mapActions(['setCurrentMusic', 'upDateMusicIndex']),
+    //上一首
+    lastSong() {
+      let index = this.currentIndex
+      let playlist = this.playlist
+      if (index === 0) {
+        index = playlist.length - 1
+      } else {
+        index = index - 1
+      }
+      this.upDateMusicIndex(index)
+      this.getMusicInfo(playlist[index])
 
+    },
+    //下一首
+    nextSong() {
+      let index = this.currentIndex
+      let playlist = this.playlist
+      if (index === playlist.length - 1) {
+        index = 0
+      } else {
+        index = index + 1
+      }
+      this.upDateMusicIndex(index)
+      this.getMusicInfo(playlist[index])
+    },
     /**
      * 获取歌曲详情 url
      */
     async getMusicInfo(song) {
       let res = await playcount({id: song.id})
-      console.log(res)
       if (res.code === 200) {
         let music = res.data[0]
         this.percentage = 0
         this.setCurrentMusic({
           url: music.url,
-          name: music.name,
-          subtitle:music.alia[0].name,
-          author: music.ar[0].name,
-          musicId: music.id,
+          name: song.name,
+          picUrl: song.al.picUrl,
+          subtitle: (song.alia[0] ? music.alia : ''),
+          author: song.ar[0].name,
+          musicId: song.id,
           isLike: false,
           share: '',
         })
@@ -190,6 +217,7 @@ export default {
     _handleEnded() {
       //根据播放模式判断是否下一曲
       // this.paused = this.playing = false;
+      this.nextSong()
     },
     init: function () {
       this.audio.addEventListener('timeupdate', this._handlePlayingUI);
@@ -316,12 +344,13 @@ export default {
 }
 
 .music-name {
-  width: 155px;
+  max-width: 155px;
   height: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: white;
+  margin-right: 5px;
 }
 
 .music-singer {

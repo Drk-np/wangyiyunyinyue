@@ -11,8 +11,8 @@
         </div>
         <div class="button">
           <el-button-group>
-            <el-button class="playingAll " icon="el-icon-video-play" size="mini" round>播放全部</el-button>
-            <el-button class="playingAll" icon="el-icon-plus" size="mini" round></el-button>
+            <el-button class="playingAll " icon="el-icon-video-play" size="mini" @click="playAll" round>播放全部</el-button>
+            <el-button class="playingAll" icon="el-icon-plus" size="mini" round @click="addList"></el-button>
           </el-button-group>
           <el-button class="button pusu" icon="el-icon-folder-add" size="mini" round>
             收藏({{ musicMessage.subscribedCount }})
@@ -27,7 +27,6 @@
             <p>歌曲数：</p> {{ musicMessage.trackCount }} <p>播放数：</p> {{ musicMessage.playCount }}
           </div>
           <div style="display: flex;width: 100%">
-            <!--                <div style="flex: 1;overflow: hidden; text-overflow:ellipsis;">-->
             <div class="introduce"
                  :style="{whiteSpace:(showMore? 'normal' : 'nowrap')}">
               简&nbsp&nbsp&nbsp介：{{ musicMessage.description }}
@@ -112,16 +111,18 @@ export default {
   name: "musicMenu",
   data() {
     return {
-      musicMessage: {},
+      musicMessage: {
+        commentCount: ''
+      },
       musicList: [],
       showMore: false,
       activeName: 'musiclist',
       loading: false,
-      menueId:this.musicMenuId
+      menueId: this.musicMenuId
     }
   },
-  computed:{
-    ...mapGetters(['currentIndex','musicMenuId'])
+  computed: {
+    ...mapGetters(['currentIndex', 'musicMenuId'])
   },
   props: {
     baseContent: {
@@ -136,21 +137,35 @@ export default {
   },
   methods: {
     ...mapActions(['addToMusicList']),
+    //播放全部
+    playAll() {
+      this.$bus.$emit('setNewMusic',  this.musicList[0])
+      let currentIndex = 0
+      this.addToMusicList({
+        musicList: this.musicList,
+        index: currentIndex,
+        musicMenuId: this.menueId
+      })
+    },
+    //添加歌单
+    addList(){
+
+    },
     // 发送替换音乐事件
-    addMusic(	row, column, event){
-      this.$bus.$emit('setNewMusic',row)
-     let  currentIndex = null
+    addMusic(row, column, event) {
+      this.$bus.$emit('setNewMusic', row)
+      let currentIndex = null
       //替换当前播放列表
-      for(let i in this.musicList ){
-        if(row.id === this.musicList[i].id){
+      for (let i in this.musicList) {
+        if (row.id === this.musicList[i].id) {
           currentIndex = i
           break
         }
       }
       this.addToMusicList({
-        musicList:this.musicList,
-        index:currentIndex,
-        musicMenuId:this.menueId
+        musicList: this.musicList,
+        index: currentIndex,
+        musicMenuId: this.menueId
       })
     },
     //获取歌单
