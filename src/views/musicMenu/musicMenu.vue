@@ -11,7 +11,7 @@
         </div>
         <div class="button">
           <el-button-group>
-            <el-button class="playingAll " icon="el-icon-video-play" size="mini" @click="playAll" round>播放全部</el-button>
+            <el-button class="playingAll" icon="el-icon-video-play" size="mini" @click="playAll" round>播放全部</el-button>
             <el-button class="playingAll" icon="el-icon-plus" size="mini" round @click="addList"></el-button>
           </el-button-group>
           <el-button class="button pusu" icon="el-icon-folder-add" size="mini" round>

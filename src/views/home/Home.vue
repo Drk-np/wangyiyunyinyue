@@ -5,8 +5,10 @@
         <el-row class="router-arrow">
           <!--          <img src="@/assets/img/topbar.png" alt="" class="logo">-->
           <i class="logo"></i>
-          <el-button boolean size="mini" icon="el-icon-arrow-left" @click="$router.go(-1)" circle></el-button>
-          <el-button boolean size="mini" icon="el-icon-arrow-right" @click="$router.go(1)" circle></el-button>
+          <el-button class="top-button" size="mini" icon="el-icon-arrow-left" @click="$router.go(-1)"
+                     circle></el-button>
+          <el-button class="top-button" size="mini" icon="el-icon-arrow-right" @click="$router.go(1)"
+                     circle></el-button>
         </el-row>
         <el-row class="top-menu">
           <top-menu></top-menu>
@@ -18,15 +20,28 @@
           >
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
-          <el-button boolean size="mini" icon="el-icon-setting" circle></el-button>
-          <el-button boolean size="mini" icon="el-icon-message" circle></el-button>
-          <el-button boolean size="mini" icon="el-icon-user" circle></el-button>
-          <el-button boolean size="mini" icon="el-icon-copy-document" circle></el-button>
+          <el-button class="top-button" size="mini" icon="el-icon-setting" circle></el-button>
+          <el-button class="top-button" size="mini" icon="el-icon-message" circle></el-button>
+          <el-button class="top-button" size="mini" icon="el-icon-user" circle></el-button>
+          <el-button class="top-button" size="mini" icon="el-icon-copy-document" circle></el-button>
         </el-row>
       </el-header>
       <el-container class="container">
         <el-aside width="200px">
           <user @showLoginBtn="showLoginpage = true"/>
+          <el-menu :default-openeds="['1', '2']" style="text-align: left;border-right:none" background-color="#202020"
+                   text-color="#7c7c7c" active-text-color="#ffd04b">
+            <el-submenu index="1" style="padding: 0">
+              <template slot="title"><i class="el-icon-mobile"></i>创建的歌单</template>
+              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="1-2">选项2</el-menu-item>
+            </el-submenu>
+            <el-submenu index="2">
+              <template slot="title"><i class="el-icon-headset"></i>收藏的歌单</template>
+              <el-menu-item index="2-1">选项1</el-menu-item>
+              <el-menu-item index="2-2">选项2</el-menu-item>
+            </el-submenu>
+          </el-menu>
         </el-aside>
         <!--        <el-main>-->
         <div class="main">
@@ -79,8 +94,6 @@ export default {
 }
 </script>
 <style scoped>
-
-
 .top-menu {
   display: flex;
 }
@@ -89,7 +102,7 @@ export default {
   width: 150px;
 }
 
-.top-menu .el-button {
+.top-menu .top-button {
   font-size: 15px;
   height: 24px;
   width: 24px;
@@ -136,12 +149,12 @@ export default {
   align-items: center;
 }
 
-.router-arrow .el-button {
+.router-arrow .top-button {
   padding: 0;
   font-size: 20px !important;
 }
 
-.router-arrow .el-button + .el-button {
+.router-arrow .top-button + .top-button {
   margin-left: 5px;
 }
 
@@ -229,19 +242,28 @@ export default {
 }
 
 
-.el-button {
+.top-button {
   background: #2d2d2d;
-  border: 1px solid #2d2d2d;
+  border: none;
   font-size: 16px !important;
   color: #acacac;
 }
 
-.el-button:hover {
-  background: #373737;
+.top-button:hover {
+  color: #e5dddd;
+  background: #4e4b4b;
+}
+
+.top-button:focus {
+  color: #e5dddd;
+  background: #4e4b4b;
 }
 
 .el-footer {
   padding: 0;
+}
+.home-container>>>.el-submenu__title{
+  padding-left: 10px!important;
 }
 
 </style>

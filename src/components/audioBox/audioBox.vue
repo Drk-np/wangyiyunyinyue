@@ -3,18 +3,23 @@
     <div class="progress-bar" ref="progressBar">
       <el-slider :step="0.01" v-model="percentage" @change="percentageChange"
                  :show-tooltip="false"></el-slider>
-      <!--      <div :style="{width:percentage/100*progressBarWidth+'px'}" class="bar"></div>-->
-      <!--      <div ref="ball" class="ball" @mouseup="mouseup" @mousedown="ballDrag" @mouseout="mouseup"></div>-->
     </div>
     <div class="audio-box">
       <div class="left-block">
-        <img class="audio-image" :src="currentMusic.picUrl" alt="">
+        <!--        <img class="audio-image" :src="currentMusic.picUrl" alt="">-->
+        <el-image class="audio-image" :src="currentMusic.picUrl" alt="">
+          <div slot="error" class="image-slot">
+            <i class="el-icon-picture-outline"></i>
+          </div>
+        </el-image>
         <div>
           <div class="music-name-block">
-            <p class="music-name">{{ currentMusic.name }}
-              <span>{{ currentMusic.subtitle === '' ? '' : (currentMusic.subtitle) }}</span></p>
-            <p>-</p>
-            <p class="music-singer">{{ currentMusic.author }}</p></div>
+            <p class="music-name">{{ currentMusic.name === ''? '网易云音乐':currentMusic.name }}
+              <span>{{ currentMusic.subtitle === '' ? '' : (currentMusic.subtitle) }}</span>
+            </p>
+            <p v-show="currentMusic.author!==''">-</p>
+            <p class="music-singer">{{ currentMusic.author }}</p>
+          </div>
           <div class="time"> {{ currentTime }} / {{ totalDuration }}</div>
         </div>
       </div>
@@ -64,9 +69,9 @@ export default {
       isMuted: false,
       loaded: false,  // 加载完成
       percentage: 0,  //音乐百分比
-      currentTime: '00:00:00',
+      currentTime: '00:00',
       audio: undefined,
-      totalDuration: 0,
+      totalDuration: '00:00',
       playerVolume: 0.5,
       playing: false,
       progressBarWidth: 0,
@@ -136,12 +141,12 @@ export default {
       var minute = parseInt(duration / 60);
       var sec = duration % 60 + '';
       var isM0 = ':';
-      if (minute == 0) {
+      if (minute === 0) {
         minute = '00';
       } else if (minute < 10) {
         minute = '0' + minute;
       }
-      if (sec.length == 1) {
+      if (sec.length === 1) {
         sec = '0' + sec;
       }
       return minute + isM0 + sec
@@ -407,4 +412,18 @@ export default {
   border: 0;
   background-color: #d33a31;
 }
+
+.audio-box >>> .image-slot {
+  color: white;
+  font-size: 25px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  width: 50px;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
 </style>

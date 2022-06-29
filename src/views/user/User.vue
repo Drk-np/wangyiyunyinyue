@@ -25,7 +25,7 @@ export default {
         nickname: '',
         headUrl: ''
       },
-      succsessLogin:false
+      succsessLogin: false
     }
   },
   mounted() {
@@ -46,9 +46,13 @@ export default {
         this.userinfo.nickname = res.profile.nickname
         this.succsessLogin = true
       }
+      res = await getUserInfo('playlist',{uid:id})
+      console.log(res)
     }
+  },
+  beforeDestroy() {
+      this.$bus.off('test')
   }
-
 }
 </script>
 
@@ -60,7 +64,7 @@ export default {
 
 .User {
   position: relative;
-  height: 120px;
+  height: 60px;
   min-width: 140px;
   max-width: 200px;
 }
