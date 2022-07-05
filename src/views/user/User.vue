@@ -1,12 +1,12 @@
 <template>
   <div class="User">
-    <div class="unlogin" v-if="!succsessLogin" @click="showLoginBtn">
+    <div class="unlogin" v-show="userInfo===''" @click="showLoginBtn">
       <el-avatar :size="40" :src="unloginUserHeadUrl" @error="errorHandler"></el-avatar>
       <el-link class="userName" :underline="false">未登录<i class="el-icon-view el-icon-arrow-right"></i></el-link>
     </div>
-    <div class="logged" v-if="succsessLogin">
-      <el-avatar :size="40" :src='userinfo.headUrl' @error="errorHandler"></el-avatar>
-      <el-link class="userName" :underline="false">{{ userinfo.nickname }}<i
+    <div class="logged" v-show="userInfo!==''">
+      <el-avatar :size="40" :src='userInfo.headUrl' @error="errorHandler"></el-avatar>
+      <el-link class="userName" :underline="false">{{ userInfo.nickname }}<i
           class="el-icon-view el-icon-arrow-right"></i></el-link>
     </div>
   </div>
@@ -15,23 +15,24 @@
 
 <script>
 import {getUserInfo} from '@/utils/api'
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "User",
   data() {
     return {
       unloginUserHeadUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-      userinfo: {
-        nickname: '',
-        headUrl: ''
-      },
-      succsessLogin: false
     }
+  },
+  computed:{
+    ...mapGetters(["userInfo"])
   },
   mounted() {
     this.$bus.$on('test', this.getUserInfo)
   },
   methods: {
+
+    ...mapActions(['saveUserId']),
     errorHandler() {
       console.log('调用了');
       return true
@@ -42,16 +43,15 @@ export default {
     async getUserInfo(id) {
       let res = await getUserInfo('detail', {uid: id})
       if (res.code === 200) {
-        this.userinfo.headUrl = res.profile.avatarUrl
-        this.userinfo.nickname = res.profile.nickname
-        this.succsessLogin = true
+        this.saveUserId({
+          headUrl: res.profile.avatarUrl,
+          nickname: res.profile.nickname
+        })
       }
-      res = await getUserInfo('playlist',{uid:id})
-      console.log(res)
     }
   },
   beforeDestroy() {
-      this.$bus.off('test')
+    this.$bus.$off('test')
   }
 }
 </script>

@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from "vuex-persistedstate"  //持久化vuex
+import createPersistedState from "vuex-persistedstate" //持久化vuex
+import {getUserInfo} from "@/utils/api";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     plugins: [createPersistedState()],
     state: {
-        userId: '',
         userInfo: {
+            userId: '',
             headUrl: '',
             nickname: ''
         },
@@ -24,17 +25,20 @@ export default new Vuex.Store({
             picUrl: ''
         },
         currentMusicIndex: null,
-        musicMenuId: null
+        musicMenuId: null,
+        menueListL: []
     },
     mutations: {
-        //登录保存当前用户id
-        SAVEUSERID(state, userid) {
-            state.userId = userid
+        //登录保存当前用户信息
+        SAVEUSERID(state, userInfo) {
+            state.userId = userInfo.id
+            state.headUrl = userInfo.headUrl?userInfo.headUrl:''
+            state.nickname = userInfo.nickname?userInfo.nickname:''
         },
         //登出删除当前用户id
         DELETEUSERID(state, userid) {
-            state.userId = userid
             state.userInfo = {
+                 userId: '',
                 headUrl: '',
                 nickname: ''
             }
@@ -59,11 +63,15 @@ export default new Vuex.Store({
         UPDATAMUSICINDEX(state, index) {
             state.currentMusicIndex = Number(index)
         },
+        SAVEMENUELIST(state, index) {
+            state.menueListL = index
+        },
     },
     actions: {
         //登录保存当前用户id
-        saveUserId({commit}, payload) {
+        saveUserId({commit,dispatch}, payload) {
             commit('SAVEUSERID', payload)
+            dispatch('getPlayList')
         },
         //登出删除当前用户id
         logout({commit}, payload) {
@@ -79,6 +87,10 @@ export default new Vuex.Store({
         upDateMusicIndex({commit}, payload) {
             commit('UPDATAMUSICINDEX', payload)
         },
+        async getPlayList({commit,state}, payload) {
+            let res = await getUserInfo('playlist', {uid: state.userInfo.userId})
+            commit('SAVEMENUELIST',res.playlist)
+        }
     },
     modules: {},
     getters: {
@@ -86,7 +98,9 @@ export default new Vuex.Store({
         musicMenuId: state => state.musicMenuId,         //当前歌单
         playLength: state => state.playlist.length,   //歌单长度
         currentMusic: state => state.currentMusic,  //当前歌曲
-        playlist: state => state.playlist  //当前歌曲列表
+        playlist: state => state.playlist,  //当前歌曲列表
+        menueList:state => state.menueListL,  //当前歌曲列表
+        userInfo: state => state.userInfo //当前登录人信息
     }
 
 })

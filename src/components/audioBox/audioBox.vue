@@ -14,7 +14,7 @@
         </el-image>
         <div>
           <div class="music-name-block">
-            <p class="music-name">{{ currentMusic.name === ''? '网易云音乐':currentMusic.name }}
+            <p class="music-name">{{ currentMusic.name === '' ? '网易云音乐' : currentMusic.name }}
               <span>{{ currentMusic.subtitle === '' ? '' : (currentMusic.subtitle) }}</span>
             </p>
             <p v-show="currentMusic.author!==''">-</p>
@@ -158,12 +158,17 @@ export default {
       this.audio.currentTime = parseInt(this.audio.duration / 100 * e);
     },
     play() {
+      let index = this.currentIndex
+      let playlist = this.playlist
       // if (this.playing) return
       this.audio.play().then(_ => {
             this.playing = true
             this.paused = false
           }
-      )
+        ).catch(err => {
+        console.log(err)
+       this.getMusicInfo(playlist[0].id)
+      })
 
     },
     pause() {

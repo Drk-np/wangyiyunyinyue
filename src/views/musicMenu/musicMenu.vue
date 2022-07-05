@@ -198,6 +198,13 @@ export default {
       second = second < 10 ? ('0' + second) : second;
       return minute + ':' + second;
     },
+  },
+  watch:{
+    '$route.query.id'(newId,oldId){
+      if(newId){
+        this.getMusicMenu()
+      }
+    }
   }
 
 

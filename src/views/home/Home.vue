@@ -30,27 +30,33 @@
         <el-aside width="200px">
           <user @showLoginBtn="showLoginpage = true"/>
           <el-menu :default-openeds="['1', '2']" style="text-align: left;border-right:none" background-color="#202020"
-                   text-color="#7c7c7c" active-text-color="#ffd04b">
+                   text-color="#7c7c7c" active-text-color="#D2D2B8" router>
             <el-submenu index="1" style="padding: 0">
               <template slot="title"><i class="el-icon-mobile"></i>创建的歌单</template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
+              <el-menu-item class="menueList"
+                            v-show="!item.subscribed" :index='"1-"+index' v-for="(item,index) in menueList" :route="{name:'musicMenu',query:{
+                              id:item.id
+                            }}"
+                            :key="'1-'+index"> {{ item.name }}
+              </el-menu-item>
             </el-submenu>
             <el-submenu index="2">
               <template slot="title"><i class="el-icon-headset"></i>收藏的歌单</template>
-              <el-menu-item index="2-1">选项1</el-menu-item>
-              <el-menu-item index="2-2">选项2</el-menu-item>
+              <el-menu-item v-show="item.subscribed" class="menueList" :index='"2-"+index'
+                            v-for="(item,index) in menueList" :key="'2-'+index" :route="{name:'musicMenu',query:{
+                              id:item.id
+                            }}">
+                {{ item.name }}
+              </el-menu-item>
             </el-submenu>
           </el-menu>
         </el-aside>
-        <!--        <el-main>-->
         <div class="main">
           <keep-alive>
             <router-view v-if="$route.meta.keepalive"></router-view>
           </keep-alive>
           <router-view v-if="!$route.meta.keepalive"></router-view>
         </div>
-        <!--        </el-main>-->
       </el-container>
       <el-footer height="80px">
         <audio-box></audio-box>
@@ -69,6 +75,7 @@ import TopMenu from "@/components/TopMenu/TopMenu";
 import User from "@/views/user/User";
 import LoginCard from "@/components/loginCard/loginCard";
 import AudioBox from "@/components/audioBox/audioBox";
+import {mapGetters} from "vuex";
 
 export default {
   name: "Home",
@@ -85,6 +92,9 @@ export default {
 
     }
   },
+  computed: {
+    ...mapGetters(['menueList'])
+  },
   created() {
 
 
@@ -96,6 +106,15 @@ export default {
 <style scoped>
 .top-menu {
   display: flex;
+}
+
+.home-container >>> .menueList {
+  padding: 0 20px !important;
+  height: 36px;
+  line-height: 36px;
+  overflow: hidden;
+  word-wrap: normal;
+  text-overflow: ellipsis;
 }
 
 .top-menu .el-input {
@@ -200,6 +219,8 @@ export default {
   background-color: #202020;
   color: #333;
   text-align: center;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .el-main {
@@ -222,19 +243,19 @@ export default {
   box-sizing: border-box;
 }
 
-.main::-webkit-scrollbar {
+.main::-webkit-scrollbar, .el-aside::-webkit-scrollbar {
   /*滚动条整体样式*/
   width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
   height: 0;
 }
 
-.main::-webkit-scrollbar-thumb {
+.main::-webkit-scrollbar-thumb, .el-aside::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   border-radius: 10px;
   background-color: skyblue;
 }
 
-.main::-webkit-scrollbar-track {
+.main::-webkit-scrollbar-track, .el-aside::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: #252525;
@@ -262,8 +283,9 @@ export default {
 .el-footer {
   padding: 0;
 }
-.home-container>>>.el-submenu__title{
-  padding-left: 10px!important;
+
+.home-container >>> .el-submenu__title {
+  padding-left: 10px !important;
 }
 
 </style>
