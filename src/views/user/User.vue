@@ -1,10 +1,10 @@
 <template>
   <div class="User">
-    <div class="unlogin" v-show="userInfo===''" @click="showLoginBtn">
+    <div class="unlogin" v-show="userInfo.userId==''" @click="showLoginBtn">
       <el-avatar :size="40" :src="unloginUserHeadUrl" @error="errorHandler"></el-avatar>
       <el-link class="userName" :underline="false">未登录<i class="el-icon-view el-icon-arrow-right"></i></el-link>
     </div>
-    <div class="logged" v-show="userInfo!==''">
+    <div class="logged" v-show="userInfo.userId!=''">
       <el-avatar :size="40" :src='userInfo.headUrl' @error="errorHandler"></el-avatar>
       <el-link class="userName" :underline="false">{{ userInfo.nickname }}<i
           class="el-icon-view el-icon-arrow-right"></i></el-link>
@@ -31,7 +31,6 @@ export default {
     this.$bus.$on('test', this.getUserInfo)
   },
   methods: {
-
     ...mapActions(['saveUserId']),
     errorHandler() {
       console.log('调用了');
@@ -44,6 +43,7 @@ export default {
       let res = await getUserInfo('detail', {uid: id})
       if (res.code === 200) {
         this.saveUserId({
+          id:id,
           headUrl: res.profile.avatarUrl,
           nickname: res.profile.nickname
         })

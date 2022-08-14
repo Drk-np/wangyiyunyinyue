@@ -44,13 +44,13 @@ const routes = [
         ]
     },
     {
-        path: '/musicList',
-        name: 'musicList',
+        path: '/menuMusicList',
+        name: 'musicMenue',
         component: page,
         children: [
             {//歌单
-                path: '/musicList/musicMenu',
-                name: 'musicMenu',
+                path: '/menuMusicList/musicMenu',
+                name: 'menuMusicList',
                 component: () => import('@/views/musicMenu/musicMenu.vue'),
                 meta: {
                     keepalive: false,

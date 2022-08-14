@@ -1,6 +1,6 @@
 <template>
   <div class="image-block" @click="getContent">
-    <el-image :src="baseContent.picUrl" fit="fill">
+    <el-image lazy :src="imgUrl===''?baseContent.picUrl:baseContent[imgUrl]" fit="fill">
       <div slot="error" class="image-slot">
         <i class="el-icon-picture-outline"></i>
       </div>
@@ -9,7 +9,12 @@
     <p class="title">
       {{ baseContent.name }}
     </p>
-
+    <p v-if="isShowAuther" class="auther">
+      <i class="el-icon-user"> </i> <span>{{ baseContent.creator.nickname }} </span>
+      <img width="12px" v-if="baseContent.creator.avatarDetail!=='null'"
+           :src="baseContent.creator.avatarDetail?baseContent.creator.avatarDetail.identityIconUrl:''"
+           alt="">
+    </p>
     <i class=" el-icon-caret-right playCount">{{ playCount }}</i>
   </div>
 </template>
@@ -18,6 +23,18 @@
 export default {
   name: "musicCard",
   props: {
+    imgUrl: {
+      type: String,
+      default: ''
+    },
+    isShowAuther: {
+      type: Boolean,
+      default: false
+    },
+    auther: {
+      type: String,
+      default: ''
+    },
     baseContent: {
       type: Object,
       default: () => {
@@ -40,9 +57,9 @@ export default {
   methods: {
     getContent() {
       this.$router.push({
-        name: 'musicMenu',
-        query:{
-          id:this.baseContent.id
+        name: 'menuMusicList',
+        query: {
+          id: this.baseContent.id
         }
       })
     }
@@ -90,7 +107,7 @@ export default {
   font-size: 25px;
   color: #C20C0C;
   position: absolute;
-  bottom: 49px;
+  bottom: 55px;
   left: 110px;
   background: white;
   /*filter: blur(5px);*/
@@ -101,6 +118,11 @@ export default {
   transition: visibility 0.7s, opacity 0.7s;
   opacity: 0;
   cursor: pointer;
+}
+
+.el-icon-video-play:hover {
+  visibility: visible;
+  opacity: 1;
 }
 
 .playCount {
@@ -122,5 +144,28 @@ export default {
   word-wrap: normal;
   text-align: left;
   margin-bottom: 10px;
+  height: 33px;
+  overflow: hidden;
+}
+
+.auther {
+  position: absolute;
+  bottom: 42px;
+  left: 5px;
+  font-size: 12px;
+  width: 140px;
+  word-wrap: normal;
+  text-align: left;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+
+}
+
+.auther span {
+  width: 40%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis
 }
 </style>

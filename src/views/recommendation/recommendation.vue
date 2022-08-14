@@ -63,7 +63,8 @@ export default {
         name:'musicMenu'
       })
     }
-  }
+  },
+
 }
 </script>
 

@@ -34,11 +34,32 @@ export function getUserInfo(url, params) {
 export function getPersonalized(params) {
     return http.get(`${personalized}`, params)
 }
-
 //获取歌单详情
 export function playlistDetail(params) {
     return http.get(`/playlist/detail`, {id: params})
 }
+
+
+//获取歌单分类
+export function playlistCatlist(params) {
+    return http.get(`/playlist/catlist`, {})
+}
+
+//热门歌单分类
+export function playlistHot(params) {
+    return http.get(`/playlist/hot`, {})
+}
+
+//获取精品歌单
+export function topPlaylist(params) {
+    return http.get(`/top/playlist`, params)
+}
+
+//获取精品歌单
+export function topPlaylistHighquality(params) {
+    return http.get(`/top/playlist/highquality`, params)
+}
+
 
 //获取歌曲详情
 export function songDetail(params) {
@@ -55,4 +76,10 @@ export function playlistTrackAll(params) {
 //获取音乐 url
 export function playcount(params) {
     return http.get(`/song/url`, params)
+}
+
+
+//所有榜单内容摘要
+export function toplistDetail(params) {
+    return http.get(`/toplist`, {})
 }

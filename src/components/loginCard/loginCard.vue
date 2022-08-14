@@ -166,7 +166,7 @@ export default {
       })
       if (res.code == 200) {
         this.$message.success('登陆成功')
-        this.saveUserId({id:res.account.id})
+        // this.saveUserId({id:res.account.id})
         this.$bus.$emit('test', res.account.id)
         this.closeCard()
       } else {

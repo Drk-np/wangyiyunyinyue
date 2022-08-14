@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from "vuex-persistedstate" //持久化vuex
 import {getUserInfo} from "@/utils/api";
+import {use} from "element-ui";
 
 Vue.use(Vuex)
 
@@ -31,14 +32,14 @@ export default new Vuex.Store({
     mutations: {
         //登录保存当前用户信息
         SAVEUSERID(state, userInfo) {
-            state.userId = userInfo.id
-            state.headUrl = userInfo.headUrl?userInfo.headUrl:''
-            state.nickname = userInfo.nickname?userInfo.nickname:''
+            state.userInfo.userId = userInfo.id
+            state.userInfo.headUrl = userInfo.headUrl ? userInfo.headUrl : ''
+            state.userInfo.nickname = userInfo.nickname ? userInfo.nickname : ''
         },
         //登出删除当前用户id
         DELETEUSERID(state, userid) {
             state.userInfo = {
-                 userId: '',
+                userId: '',
                 headUrl: '',
                 nickname: ''
             }
@@ -69,7 +70,7 @@ export default new Vuex.Store({
     },
     actions: {
         //登录保存当前用户id
-        saveUserId({commit,dispatch}, payload) {
+        saveUserId({commit, dispatch}, payload) {
             commit('SAVEUSERID', payload)
             dispatch('getPlayList')
         },
@@ -83,13 +84,15 @@ export default new Vuex.Store({
         },
         setCurrentMusic({commit}, payload) {
             commit('SETCUURENTMUSIC', payload)
+
         },
-        upDateMusicIndex({commit}, payload) {
+        upDateMusicIndex({commit, state}, payload) {
             commit('UPDATAMUSICINDEX', payload)
+            commit('SETCUURENTMUSIC', state.playlist[state.currentMusicIndex])
         },
-        async getPlayList({commit,state}, payload) {
+        async getPlayList({commit, state}, payload) {
             let res = await getUserInfo('playlist', {uid: state.userInfo.userId})
-            commit('SAVEMENUELIST',res.playlist)
+            commit('SAVEMENUELIST', res.playlist)
         }
     },
     modules: {},
@@ -99,7 +102,7 @@ export default new Vuex.Store({
         playLength: state => state.playlist.length,   //歌单长度
         currentMusic: state => state.currentMusic,  //当前歌曲
         playlist: state => state.playlist,  //当前歌曲列表
-        menueList:state => state.menueListL,  //当前歌曲列表
+        menueList: state => state.menueListL,  //当前歌曲列表
         userInfo: state => state.userInfo //当前登录人信息
     }
 

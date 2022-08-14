@@ -17,22 +17,33 @@ export default {
       menulist: [
         {title: '个性推荐', path: '/home/recommendation'},
         {title: '歌单', path: '/home/musicList'},
-        {
-          title: '主播电台',
-          path: '/home/theShostStation'
-        },
+        // {
+        //   title: '主播电台',
+        //   path: '/home/theShostStation'
+        // },
         {
           title: '排行榜',
           path: '/home/rankingList'
-        }, '歌手', '最新音乐']
+        },
+        {
+          title: '歌手',
+          path: '/home/rankingList'
+        },
+        {
+          title: '最新音乐',
+          path: '/home/rankingList'
+        }, ]
     }
   },
   methods: {
     pathTo(path, index) {
-      // if (index === this.currentActive) return
+      if (index === this.currentActive) return
       this.currentActive = index
       this.$router.push(path)
     }
+  },
+  destroyed() {
+    this.index == null
   }
 }
 </script>

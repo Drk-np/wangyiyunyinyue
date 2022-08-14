@@ -34,7 +34,7 @@
             <el-submenu index="1" style="padding: 0">
               <template slot="title"><i class="el-icon-mobile"></i>创建的歌单</template>
               <el-menu-item class="menueList"
-                            v-show="!item.subscribed" :index='"1-"+index' v-for="(item,index) in menueList" :route="{name:'musicMenu',query:{
+                            v-show="!item.subscribed" :index='"1-"+index' v-for="(item,index) in menueList" :route="{name:'menuMusicList',query:{
                               id:item.id
                             }}"
                             :key="'1-'+index"> {{ item.name }}
@@ -43,7 +43,7 @@
             <el-submenu index="2">
               <template slot="title"><i class="el-icon-headset"></i>收藏的歌单</template>
               <el-menu-item v-show="item.subscribed" class="menueList" :index='"2-"+index'
-                            v-for="(item,index) in menueList" :key="'2-'+index" :route="{name:'musicMenu',query:{
+                            v-for="(item,index) in menueList" :key="'2-'+index" :route="{name:'menuMusicList',query:{
                               id:item.id
                             }}">
                 {{ item.name }}
