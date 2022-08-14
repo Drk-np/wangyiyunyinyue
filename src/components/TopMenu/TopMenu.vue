@@ -27,12 +27,12 @@ export default {
         },
         {
           title: '歌手',
-          path: '/home/rankingList'
+          path: '/home/singer'
         },
         {
           title: '最新音乐',
-          path: '/home/rankingList'
-        }, ]
+          path: '/home/newSongs'
+        },]
     }
   },
   methods: {

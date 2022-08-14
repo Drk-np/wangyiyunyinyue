@@ -39,6 +39,19 @@ const routes = [
                 name: 'rankingList',
                 component: () => import( '@/views/rankingList/rankingList.vue'),
                 meta: {keepalive: true,},
+            },
+            {//歌手
+                path: '/home/singer',
+                name: 'singerList',
+                component: () => import( '@/views/singerList/singerList.vue'),
+                meta: {keepalive: true,},
+            }
+            ,
+            {//新歌
+                path: '/home/newSongs',
+                name: 'singerList',
+                component: () => import( '@/views/newSongs/newSongs.vue'),
+                meta: {keepalive: true,},
             }
 
         ]

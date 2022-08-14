@@ -83,3 +83,8 @@ export function playcount(params) {
 export function toplistDetail(params) {
     return http.get(`/toplist`, {})
 }
+
+//所有歌手榜单
+export function toplistArtist(params) {
+    return http.get(`/toplist/artist`, {type:params})
+}
