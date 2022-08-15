@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1656140516911') format('truetype');
+  src: url('iconfont.ttf?t=1660538382926') format('truetype');
 }
 
 .iconfont {
@@ -25,6 +25,14 @@
 
 .icon-fenxiang:before {
   content: "\e614";
+}
+
+.icon-jiantou_yemian_xiangshang_o:before {
+  content: "\eb93";
+}
+
+.icon-jiantou_yemian_xiangxia_o:before {
+  content: "\eb95";
 }
 
 .icon-bofang:before {

@@ -6,12 +6,18 @@
     </div>
     <div class="audio-box">
       <div class="left-block">
-        <!--        <img class="audio-image" :src="currentMusic.picUrl" alt="">-->
         <el-image class="audio-image" :src="currentMusic.picUrl" alt="">
           <div slot="error" class="image-slot">
             <i class="el-icon-picture-outline"></i>
           </div>
         </el-image>
+        <div class="img-mask" @mouseleave="closeMusicMarsk"
+             @mouseover="showMusicMask" @click="changeMusicboard">
+          <div v-show="!boardStatus" class="iconfont icon-jiantou_yemian_xiangshang_o animate__animated"
+               :class="{animate__slideOutUp:isShowMusicMask}"></div>
+          <div v-show="boardStatus" class="iconfont icon-jiantou_yemian_xiangxia_o animate__animated"
+               :class="{animate__slideOutDown:isShowMusicMask}"></div>
+        </div>
         <div>
           <div class="music-name-block">
             <p class="music-name">{{ currentMusic.name === '' ? '网易云音乐' : currentMusic.name }}
@@ -50,7 +56,7 @@
 <script>
 
 import {playcount} from '@/utils/api'
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
   name: 'audioBox',
@@ -61,7 +67,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['currentMusic', 'currentIndex', 'playlist']),
+    ...mapGetters(['currentMusic', 'currentIndex', 'playlist', 'boardStatus']),
   },
   data() {
     return {
@@ -78,7 +84,8 @@ export default {
       moveStart: 0,
       moveStop: 0,
       isFirst: true,
-      currentMusicIndex: null
+      currentMusicIndex: null,
+      isShowMusicMask: false
     }
   },
   async mounted() {
@@ -89,6 +96,22 @@ export default {
   },
   methods: {
     ...mapActions(['setCurrentMusic', 'upDateMusicIndex']),
+    ...mapMutations(['CHANGEMUSICBOARDSTATUS']),
+    showMusicMask() {
+      if (this.isShowMusicMask == true) return
+      console.log('1')
+      this.isShowMusicMask = true
+    },
+    closeMusicMarsk() {
+      if (this.isShowMusicMask == false) return
+      console.log('2')
+      this.isShowMusicMask = false
+    },
+    changeMusicboard() {
+      let status = this.boardStatus
+      this.CHANGEMUSICBOARDSTATUS(!status)
+      console.log(this.boardStatus)
+    },
     //上一首
     lastSong() {
       let index = this.currentIndex
@@ -165,9 +188,9 @@ export default {
             this.playing = true
             this.paused = false
           }
-        ).catch(err => {
+      ).catch(err => {
         console.log(err)
-       this.getMusicInfo(playlist[0].id)
+        this.getMusicInfo(playlist[0].id)
       })
 
     },
@@ -293,6 +316,7 @@ export default {
   display: flex;
   align-items: center;
   text-align: left;
+  position: relative;
 }
 
 .center-block {
@@ -428,7 +452,34 @@ export default {
   border-radius: 5px;
   margin-right: 10px;
   cursor: pointer;
-  overflow: hidden;
+
 }
+
+.img-mask {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  position: absolute;
+  /*left: -60px;*/
+  color: #413e3e;
+  background-color: rgba(250, 250, 250, 0.5);
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.img-mask:hover {
+  opacity: 1;
+}
+
+.icon-jiantou_yemian_xiangshang_o, .icon-jiantou_yemian_xiangxia_o {
+  width: 50px;
+  /*height: 50px;*/
+  font-size: 50px;
+  transition: all 1s;
+  animation-iteration-count: infinite;
+}
+
 
 </style>

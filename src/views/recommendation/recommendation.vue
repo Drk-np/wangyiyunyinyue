@@ -99,7 +99,7 @@ export default {
     align-items: flex-start;
 }
 .music-card{
-  z-index: 98;
+  z-index: 5;
 }
 
 

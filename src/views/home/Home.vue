@@ -56,6 +56,10 @@
             <router-view v-if="$route.meta.keepalive"></router-view>
           </keep-alive>
           <router-view v-if="!$route.meta.keepalive"></router-view>
+
+        </div>
+        <div class="music-word-box" :class="{cardmove:!boardStatus}">
+
         </div>
       </el-container>
       <el-footer height="80px">
@@ -64,6 +68,7 @@
     </el-container>
     <!--   登录页面-->
     <login-card :isShow.sync="showLoginpage" v-show="showLoginpage"/>
+
   </div>
 
 
@@ -93,7 +98,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['menueList'])
+    ...mapGetters(['menueList', 'boardStatus'])
   },
   created() {
 
@@ -191,6 +196,7 @@ export default {
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   border-radius: 5px;
+  overflow: hidden;
 }
 
 .el-header {
@@ -212,6 +218,8 @@ export default {
   text-align: center;
   line-height: 60px;
   border-radius: 0 0 10px 10px;
+  z-index: 20;
+  padding: 0;
 }
 
 .el-aside {
@@ -280,12 +288,24 @@ export default {
   background: #4e4b4b;
 }
 
-.el-footer {
-  padding: 0;
-}
 
 .home-container >>> .el-submenu__title {
   padding-left: 10px !important;
+}
+
+.music-word-box {
+  background-color: #3a3a3a;
+  position: fixed;
+  width: 100%;
+  height: calc(100% - 50px - 80px);
+  float: left;
+  transition: all 0.5s;
+  z-index: 9;
+}
+
+.cardmove {
+  transform: translateY(100%);
+  /*display: none;*/
 }
 
 </style>

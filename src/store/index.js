@@ -27,7 +27,8 @@ export default new Vuex.Store({
         },
         currentMusicIndex: null,
         musicMenuId: null,
-        menueListL: []
+        menueListL: [],
+        isShowMusicBoard: false
     },
     mutations: {
         //登录保存当前用户信息
@@ -67,6 +68,9 @@ export default new Vuex.Store({
         SAVEMENUELIST(state, index) {
             state.menueListL = index
         },
+        CHANGEMUSICBOARDSTATUS(state, status) {
+            state.isShowMusicBoard = status
+        }
     },
     actions: {
         //登录保存当前用户id
@@ -103,7 +107,8 @@ export default new Vuex.Store({
         currentMusic: state => state.currentMusic,  //当前歌曲
         playlist: state => state.playlist,  //当前歌曲列表
         menueList: state => state.menueListL,  //当前歌曲列表
-        userInfo: state => state.userInfo //当前登录人信息
+        userInfo: state => state.userInfo, //当前登录人信息
+        boardStatus: state => state.isShowMusicBoard // 面板开闭状态
     }
 
 })

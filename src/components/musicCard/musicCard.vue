@@ -87,6 +87,7 @@ export default {
 
 <style scoped>
 .image-block {
+
   width: 140px;
   position: relative;
 }
@@ -95,6 +96,7 @@ export default {
   width: 140px;
   height: 140px;
   border-radius: 10px;
+  z-index: 4;
   cursor: pointer;
 }
 
@@ -113,7 +115,7 @@ export default {
   /*filter: blur(5px);*/
   backdrop-filter: blur(5px);
   border-radius: 50%;
-  z-index: 99;
+  z-index: 5;
   visibility: hidden;
   transition: visibility 0.7s, opacity 0.7s;
   opacity: 0;
