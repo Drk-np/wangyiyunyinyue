@@ -10,7 +10,7 @@
     </div>
     <div class="singer-list">
       <div class="singer-item" v-for="(item,index) in singerlist" :key="index" fit="fill">
-        <el-image :src="item.img1v1Url"></el-image>
+        <el-image lazy :src="item.img1v1Url"></el-image>
         <p>{{ item.name }}</p>
       </div>
     </div>

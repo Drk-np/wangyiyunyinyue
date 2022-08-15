@@ -52,15 +52,7 @@ const routes = [
                 name: 'singerList',
                 component: () => import( '@/views/newSongs/newSongs.vue'),
                 meta: {keepalive: true,},
-            }
-
-        ]
-    },
-    {
-        path: '/menuMusicList',
-        name: 'musicMenue',
-        component: page,
-        children: [
+            },
             {//歌单
                 path: '/menuMusicList/musicMenu',
                 name: 'menuMusicList',
@@ -70,6 +62,23 @@ const routes = [
                     isBack: false,
                 }
             }
+
+        ]
+    },
+    {
+        path: '/menuMusicList',
+        name: 'musicMenue',
+        component: page,
+        children: [
+            // {//歌单
+            //     path: '/menuMusicList/musicMenu',
+            //     name: 'menuMusicList',
+            //     component: () => import('@/views/musicMenu/musicMenu.vue'),
+            //     meta: {
+            //         keepalive: false,
+            //         isBack: false,
+            //     }
+            // }
 
         ]
     },
